@@ -16,20 +16,31 @@ public class UserManager {
 		return user.clone();
 	}
 	
-	public static User findUserByLog(int id) {
+	public void removeUser(int index) {
+		users.remove(index);
+	}
+	
+	public User findUserByLog(int log) {
+		return users.get(log);
+	}
+	
+	public int getUserLogByIdAndPassword(String id, String pw) {
+		int log = -1;
+		for (int i = 0; i < getUserCount(); i++) {
+			User user = users.get(i);
+			if(user.getId().equals(id) && user.getPassword().equals(pw))
+				log = i;
+		}
+		return log;
+	}
+	
+	public User findUserById(String id) {
 		for (User user : users) {
 			if (user.getId().equals(id))
 				return user.clone();
 		}
 		return new User();
 	}
-	
-//	public void setUserCount(boolean isAdd) {
-//		if(isAdd)
-//			this.userCount++;
-//		else
-//			this.userCount--;
-//	}
 	
 	public int getUserCount() {
 		return this.users.size();

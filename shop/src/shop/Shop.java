@@ -6,14 +6,15 @@ import java.util.Scanner;
 public class Shop {
 	private Scanner scan = new Scanner(System.in);
 	
-	private ArrayList<User> users;
+	//private ArrayList<User> users;
+	private UserManager um = new UserManager();
 	
 	private String shopName;
 	public int log = -1;
 	
 	public Shop(String shopName) {
 		this.shopName = shopName;
-		users = new ArrayList<User>();
+		//users = new ArrayList<User>();
 	}
 	
 	private int inputNumber(String message) {
@@ -39,16 +40,9 @@ public class Shop {
 		String id = inputString("id");
 		String pw = inputString("pw");
 		
-		UserManager um = new UserManager();
+		User user = um.findUserById(id);
 		
-		int idx = -1;
-		for(int i = 0; i < um.getUserCount(); i++) {
-			User user = users.get(i);
-			if(user.getId().equals(id))
-				idx = i;
-		}
-		
-		if(idx != -1) {
+		if(user == null) {
 			System.out.println("이미 존재하는 아이디입니다.");
 			return;
 		}
@@ -59,16 +53,14 @@ public class Shop {
 	}
 	
 	private void leave() {
+		User user = um.findUserByLog(log);
 		String pw = inputString("pw");
-		if(!users.get(log).getPassword().equals(pw)) {
+		if(!user.getPassword().equals(pw)) {
 			System.out.println("비밀번호가 일치하지 않습니다.");
 			return;
 		}
 		
-		users.remove(log);
-		
-//		UserManager um = new UserManager();
-//		um.setUserCount(false);
+		um.removeUser(log);
 		
 		log = -1;
 		System.out.println("로그아웃 완료");
@@ -78,14 +70,7 @@ public class Shop {
 		String id = inputString("id");
 		String pw = inputString("pw");
 		
-		int log = -1;
-		UserManager um = new UserManager();
-		
-		for(int i = 0; i < um.getUserCount(); i++) {
-			User user = users.get(i);
-			if(user.getId().equals(id) && user.getPassword().equals(pw))
-				log = i;
-		}
+		log = um.getUserLogByIdAndPassword(id, pw);
 		
 		if(log == -1) {
 			System.out.println("로그인 정보가 일치하지 않습니다.");
