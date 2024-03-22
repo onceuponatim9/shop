@@ -87,7 +87,7 @@ public class Shop {
 	
 	private void shopping() {
 		showAllItems();
-		int index = inputNumber("item number");
+		int index = inputNumber("item number") - 1;
 		int amount = inputNumber("amount");
 		
 		if(index == -1) {
@@ -101,8 +101,9 @@ public class Shop {
 		}
 		
 		if(log != -1) {
+			Item item = im.getItem(index);
 			User user = um.findUserByLog(log);
-			user.userShopping(index, amount);
+			user.userShopping(item, amount);
 		}
 	}
 	

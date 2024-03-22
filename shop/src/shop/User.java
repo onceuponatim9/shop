@@ -1,12 +1,8 @@
 package shop;
 
-import java.util.ArrayList;
-
 public class User {
 	private String name, id, password;
 	private Cart cart;
-	
-	private ArrayList<Item> items;
 	
 	public User() {
 		
@@ -16,6 +12,7 @@ public class User {
 		this.name = name;
 		this.id = id;
 		this.password = password;
+		cart = new Cart();
 	}
 	
 	public String getId() {
@@ -30,9 +27,7 @@ public class User {
 		return new User(this.name, this.id, this.password);
 	}
 	
-	public void userShopping(int index, int amount) {
-		Item item = items.get(index);
-		
+	public void userShopping(Item item, int amount) {
 		for(int i = 0; i < amount; i++)
 			cart.add(item);
 	}
