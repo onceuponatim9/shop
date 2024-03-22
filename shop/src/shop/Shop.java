@@ -86,7 +86,24 @@ public class Shop {
 	}
 	
 	private void shopping() {
+		showAllItems();
+		int index = inputNumber("item number");
+		int amount = inputNumber("amount");
 		
+		if(index == -1) {
+			System.out.println("존재하지 않는 아이템입니다.");
+			return;
+		}
+		
+		if(amount <= 0) {
+			System.out.println("수량은 1개부터 선택 가능합니다.");
+			return;
+		}
+		
+		if(log != -1) {
+			User user = um.findUserByLog(log);
+			user.userShopping(index, amount);
+		}
 	}
 	
 	private void myPage() {
@@ -173,7 +190,7 @@ public class Shop {
 		String itemName = inputString("new name");
 		
 		if(index < 0 || index > im.getItemCount() - 1) {
-			System.out.println("유요하지 않은 인덱스입니다.");
+			System.out.println("유효하지 않은 인덱스입니다.");
 			return;
 		}
 		
