@@ -12,4 +12,11 @@ public class Cart {
 	public void add(Item item) {
 		list.add(item);
 	}
+	
+	public Item get(int index) {
+		return list.get(index);
+	}
+	public int size() {
+		return this.list.size();
+	}
 }

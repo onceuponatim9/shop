@@ -1,5 +1,6 @@
 package shop;
 
+import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Shop {
@@ -107,8 +108,70 @@ public class Shop {
 		}
 	}
 	
-	private void myPage() {
+	private void myCart() {
+		User user = um.findUserByLog(log);
+		ArrayList<String> list = new ArrayList<>();
+		System.out.println(user.getUserCartCount());
 		
+		for(int i = 0; i < user.getUserCartCount(); i++) {
+			Item item = user.cloneCart(i);
+			boolean isTrue = false;
+			
+			for(int j = 0; j < list.size(); j += 2) {
+				if(list.get(j).equals(item.getName())) {
+					int num = Integer.parseInt(list.get(j + 1)) + 1;
+					list.set(j + 1, String.valueOf(num));
+					isTrue = true;
+				}
+			}
+			
+			if(!isTrue) {
+				list.add(item.getName());
+				list.add(String.valueOf(1));
+			}
+		}
+		
+		//System.out.println("list 길이 : " + list.size());
+		for(int i = 0; i < list.size(); i += 2) {
+			System.out.printf("%s) %d개\n", list.get(i), Integer.parseInt(list.get(i + 1)));
+		}
+	}
+	
+	private void removeItemFromCart() {
+		
+	}
+	
+	private void updateAmount() {
+		showAllItems();
+		int index = inputNumber("item number") - 1;
+		int amount = inputNumber("amount");
+	}
+	
+	private void pay() {
+		
+	}
+	
+	private void printMyPage() {
+		System.out.println("1. 내 장바구니");
+		System.out.println("2. 항목 삭제");
+		System.out.println("3. 수량 수정");
+		System.out.println("4. 결제");
+	}
+	
+	private void runMyPage(int select) {
+		if(select == 1)
+			myCart();
+		else if(select == 2)
+			removeItemFromCart();
+		else if(select == 3)
+			updateAmount();
+		else if(select == 4)
+			pay();
+	}
+	
+	private void myPage() {
+		printMyPage();
+		runMyPage(inputNumber(""));
 	}
 	
 	private void runUserMenu(int select) {
@@ -259,7 +322,6 @@ public class Shop {
 
 	public void run() {
 		while(true) {
-			UserManager um = new UserManager();
 			System.out.println("회원 " + um.getUserCount() + "명");
 			System.out.println("log = " + log);
 			System.out.printf("[%s Shop]\n", shopName);

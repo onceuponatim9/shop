@@ -32,6 +32,14 @@ public class User {
 			cart.add(item);
 	}
 	
+	public Item cloneCart(int index) {
+		return cart.get(index);
+	}
+	
+	public int getUserCartCount() {
+		return this.cart.size();
+	}
+	
 	public void runMenu() {
 		
 	}
