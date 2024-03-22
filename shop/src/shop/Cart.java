@@ -13,6 +13,10 @@ public class Cart {
 		list.add(item);
 	}
 	
+	public void remove(int index) {
+		list.remove(index);
+	}
+	
 	public Item get(int index) {
 		return list.get(index);
 	}

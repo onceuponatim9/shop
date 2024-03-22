@@ -91,7 +91,7 @@ public class Shop {
 		int index = inputNumber("item number") - 1;
 		int amount = inputNumber("amount");
 		
-		if(index == -1) {
+		if(index < 0 || index >= im.getItemCount()) {
 			System.out.println("존재하지 않는 아이템입니다.");
 			return;
 		}
@@ -108,10 +108,53 @@ public class Shop {
 		}
 	}
 	
+//	private int myCart() {
+//		User user = um.findUserByLog(log);
+//		ArrayList<String> list = new ArrayList<>();
+//		System.out.println(user.getUserCartCount());
+//		
+//		for(int i = 0; i < user.getUserCartCount(); i++) {
+//			Item item = user.cloneCart(i);
+//			boolean isTrue = false;
+//			
+//			for(int j = 0; j < list.size(); j += 2) {
+//				if(list.get(j).equals(item.getName())) {
+//					int num = Integer.parseInt(list.get(j + 1)) + 1;
+//					list.set(j + 1, String.valueOf(num));
+//					isTrue = true;
+//				}
+//			}
+//			
+//			if(!isTrue) {
+//				list.add(item.getName());
+//				list.add(String.valueOf(1));
+//			}
+//		}
+//		
+//		//System.out.println("list 길이 : " + list.size());
+//		for(int i = 0; i < list.size(); i += 2) {
+//			System.out.printf("%d) %s %d개\n", i + 1, list.get(i), Integer.parseInt(list.get(i + 1)));
+//		}
+//		
+//		return list.size();
+//	}
+	
 	private void myCart() {
+		ArrayList<String> list = getList();
+		
+		for(int i = 0; i < list.size(); i += 2) {
+			System.out.printf("%d) %s %d개\n", i + 1, list.get(i), Integer.parseInt(list.get(i + 1)));
+		}
+	}
+	
+	private void removeItemFromCart() {
+		
+	}
+	
+	private ArrayList<String> getList() {
 		User user = um.findUserByLog(log);
 		ArrayList<String> list = new ArrayList<>();
-		System.out.println(user.getUserCartCount());
+		//System.out.println(user.getUserCartCount());
 		
 		for(int i = 0; i < user.getUserCartCount(); i++) {
 			Item item = user.cloneCart(i);
@@ -131,20 +174,88 @@ public class Shop {
 			}
 		}
 		
-		//System.out.println("list 길이 : " + list.size());
-		for(int i = 0; i < list.size(); i += 2) {
-			System.out.printf("%s) %d개\n", list.get(i), Integer.parseInt(list.get(i + 1)));
-		}
+		return list;
 	}
 	
-	private void removeItemFromCart() {
+	private String findItemName(int index) {
+		String itemName = null;
 		
+		ArrayList<String> list = getList();
+		//User user = um.findUserByLog(log);
+		
+		for(int i = 0; i < im.getItemCount(); i++) {
+			if(list.get(index).equals(im.getItem(i).getName()))
+					itemName = im.getItem(i).getName();
+		}
+		
+		return itemName;
+	}
+	
+	private int findIndexOfItemName(String name) {
+		int index = -1;
+		
+		for(int i = 0; i < im.getItemCount(); i++) {
+			Item item = im.getItem(i);
+			if(item.getName().equals(name))
+				index = i;
+		}
+		
+		return index;
+	}
+	
+	private int itemCountInCart(String name) {
+		int count = 0;
+		return count;
 	}
 	
 	private void updateAmount() {
-		showAllItems();
+		myCart();
+		
 		int index = inputNumber("item number") - 1;
 		int amount = inputNumber("amount");
+		
+		int size = getList().size();
+		
+		if(index < 0 || index >= size) {
+			System.out.println("존재하지 않는 아이템입니다.");
+			return;
+		}
+		
+		if(amount <= 0) {
+			System.out.println("수량은 1개부터 선택 가능합니다.");
+			return;
+		}
+		
+		// index에 해당하는 아이템 이름과 같은 아이템을 ItemManager에서 찾아서 그 인덱스 리턴받기
+		String itemName = findItemName(index);
+		
+		// 해당 유저의 전체 카트에서 해당 아이템이 존재하지 않으면 return
+		if(itemName == null) {
+			System.out.println("내 장바구니에 해당 아이템이 존재하지 않습니다.");
+			return;
+		}
+		
+		int itemIndex = findIndexOfItemName(itemName);
+		
+		Item item = im.getItem(itemIndex);
+		User user = um.findUserByLog(log);
+		
+		
+		// 존재하면 그 개수 바꾸기
+		int itemCnt = itemCountInCart(itemName); // 여기부터 다시 하기
+		
+		if(itemCnt >= amount) {
+			// count만큼 해당 아이템 지우기
+			int count = itemCnt - amount;
+			user.removeItem(itemName, count);
+		}
+		else {
+			// count만큼 해당 아이템 추가하기
+			int count = amount - itemCnt;
+			
+			for(int i = 0; i < count; i++)
+				user.userShopping(item, amount);
+		}
 	}
 	
 	private void pay() {

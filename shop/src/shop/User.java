@@ -32,8 +32,27 @@ public class User {
 			cart.add(item);
 	}
 	
+	public void removeItem(String itemName, int count) {
+		for(int i = 0; i < getUserCartCount(); i++) {
+			if(cart.get(i).getName().equals(itemName)) {
+				cart.remove(i);
+				count--;
+			}
+			if(count == 0)
+				break;
+		}
+	}
+	
 	public Item cloneCart(int index) {
 		return cart.get(index);
+	}
+	
+	public int itemCountInCart() {
+		int count = 0;
+		for(int i = 0; i < getUserCartCount(); i++) {
+			
+		}
+		return count;
 	}
 	
 	public int getUserCartCount() {
