@@ -3,7 +3,7 @@ package shop;
 import java.util.ArrayList;
 
 public class UserManager {
-	private static ArrayList<User> users = new ArrayList<User>();
+	private ArrayList<User> users = new ArrayList<User>();
 	//private int userCount;
 	
 	public UserManager() {
