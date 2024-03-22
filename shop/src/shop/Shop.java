@@ -1,5 +1,9 @@
 package shop;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import java.io.FileWriter;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -63,7 +67,7 @@ public class Shop {
 		um.removeUser(log);
 		
 		log = -1;
-		System.out.println("로그아웃 완료");
+		System.out.println("회원탈퇴 완료");
 	}
 	
 	private void login() {
