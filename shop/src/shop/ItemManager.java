@@ -10,7 +10,7 @@ public class ItemManager {
 	}
 	
 	public Item createItem(String itemName) {
-		Item item = new Item(itemName);
+		Item item = new Item(itemName, 1);
 		items.add(item);
 		return item.clone();
 	}
@@ -42,6 +42,16 @@ public class ItemManager {
 		}
 		return index;
 	}
+	
+//	public int getIndexByItemName(String itemName) {
+//		int index = -1;
+//		for(int i = 0; i < getItemCount(); i++) {
+//			Item item = items.get(i);
+//			if(item.getName().equals(itemName))
+//				index = i;
+//		}
+//		return index;
+//	}
 	
 	public Item getItem(int code) {
 		//return new Item();

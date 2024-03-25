@@ -27,10 +27,14 @@ public class User {
 		return new User(this.name, this.id, this.password);
 	}
 	
-	public void userShopping(Item item, int amount) {
-		for(int i = 0; i < amount; i++)
-			cart.add(item);
+	public void userShopping(Item item) {
+		cart.add(item);
 	}
+	
+//	public void userShopping(Item item, int amount) {
+//		for(int i = 0; i < amount; i++)
+//			cart.add(item);
+//	}
 	
 	public void removeItem(String itemName, int count) {
 		for(int i = 0; i < getUserCartCount(); i++) {

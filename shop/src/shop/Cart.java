@@ -13,6 +13,15 @@ public class Cart {
 		list.add(item);
 	}
 	
+//	public void add(Item item, int amount) {
+//		Item item = new Item();
+//		list.add(item);
+//	}
+	
+	public void set(int index, Item item) {
+		
+	}
+	
 	public void remove(int index) {
 		list.remove(index);
 	}
