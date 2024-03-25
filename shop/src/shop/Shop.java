@@ -91,7 +91,7 @@ public class Shop {
 		int index = -1;
 		
 		for(int i = 0; i < user.getUserCartCount(); i++) {
-			if(user.cloneCart(i).getName().equals(itemName))
+			if(user.cloneItemInCart(i).getName().equals(itemName))
 				index = i;
 		}
 		
@@ -130,8 +130,8 @@ public class Shop {
 			System.out.println("카트에 이미 담긴 아이템입니다. 수량을 추가하시겠습니까?");
 			int sel = inputNumber("Yes) 1, No) 2");
 			if(sel == 1) {
-				int previousAmount = user.cloneCart(myIndex).getAmount();
-				user.cloneCart(myIndex).setAmount(previousAmount + amount);
+				int previousAmount = user.cloneItemInCart(myIndex).getAmount();
+				user.cloneItemInCart(myIndex).setAmount(previousAmount + amount);
 			}
 		}
 	}
@@ -171,7 +171,7 @@ public class Shop {
 		User user = um.findUserByLog(log);
 		
 		for(int i = 0; i < user.getUserCartCount(); i++) {
-			Item item = user.cloneCart(i);
+			Item item = user.cloneItemInCart(i);
 			System.out.printf("%d) %s %d개\n", i + 1, item.getName(), item.getAmount());
 		}
 	}
@@ -188,6 +188,9 @@ public class Shop {
 			System.out.println("존재하지 않는 아이템입니다.");
 			return;
 		}
+		
+		user.cloneCart().remove(index);
+		System.out.println("장바구니에서 선택한 아이템이 삭제되었습니다.");
 	}
 	
 //	private ArrayList<String> getList() {
@@ -223,7 +226,7 @@ public class Shop {
 		User user = um.findUserByLog(log);
 		
 		for(int i = 0; i < user.getUserCartCount(); i++) {
-			Item item = user.cloneCart(i);
+			Item item = user.cloneItemInCart(i);
 			for(int j = 0; j < im.getItemCount(); j++) {
 				if(item.getName().equals(im.getItem(j).getName()))
 					itemName = im.getItem(j).getName();
@@ -295,7 +298,7 @@ public class Shop {
 //		System.out.println("itemCnt : " + itemCnt);
 //		System.out.println("amount : " + amount);
 		
-		user.cloneCart(index).setAmount(amount);
+		user.cloneItemInCart(index).setAmount(amount);
 		//user.cloneCart(itemIndex).setAmount(amount);
 		
 //		if(itemCnt >= amount) {
@@ -313,7 +316,10 @@ public class Shop {
 	}
 	
 	private void pay() {
+		myCart();
 		
+		int index = inputNumber("item number") - 1;
+		//int price = index * 
 	}
 	
 	private void printMyPage() {
@@ -373,6 +379,7 @@ public class Shop {
 	
 	private void addItem() {
 		String itemName = inputString("item name");
+		int price = inputNumber("price");
 		// 중복 검사
 		Item item = im.findItemByItemName(itemName);
 		
@@ -381,8 +388,12 @@ public class Shop {
 			return;
 		}
 		
-		im.createItem(itemName);
+		if(price <= 0) {
+			System.out.println("가격은 1원 이상을 입력하세요.");
+			return;
+		}
 		
+		im.createItem(itemName, price);
 		System.out.println("아이템 추가 완료");
 	}
 	

@@ -47,8 +47,12 @@ public class User {
 		}
 	}
 	
-	public Item cloneCart(int index) {
+	public Item cloneItemInCart(int index) {
 		return cart.get(index);
+	}
+	
+	public Cart cloneCart() {
+		return cart;
 	}
 	
 	public int itemCountInCart() {

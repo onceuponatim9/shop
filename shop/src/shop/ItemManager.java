@@ -9,7 +9,7 @@ public class ItemManager {
 		
 	}
 	
-	public Item createItem(String itemName) {
+	public Item createItem(String itemName, int price) {
 		Item item = new Item(itemName, 1);
 		items.add(item);
 		return item.clone();
